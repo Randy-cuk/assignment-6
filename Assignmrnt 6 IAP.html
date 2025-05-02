@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Dynamic Clock Page</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      text-align: center;
+      transition: background-color 0.5s, color 0.5s;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+    }
+
+    h1 {
+      font-size: 3rem;
+      margin-bottom: 10px;
+    }
+
+    #time {
+      font-size: 2.5rem;
+      margin-bottom: 20px;
+    }
+
+    #modeToggle {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      padding: 10px 20px;
+      font-size: 1rem;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      background-color: #333;
+      color: white;
+     transition: all 0.3s ease;
+     box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+     
+}
+
+#modeToggle:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+}
+
+    .morning {
+      background: linear-gradient(135deg, #FFE29F, #FFA99F);
+      color: #333;
+    }
+
+    .afternoon {
+      background: linear-gradient(135deg, #fceabb, #f8b500);
+      color: #333;
+    }
+
+    .night {
+      background: linear-gradient(135deg, #020035, #2a5298);
+      color: #fff;
+    }
+
+    .light_mode {
+        color:white;
+    }
+
+    .dark_mode {
+      color: black !important;
+    }
+
+    .dark_mode #modeToggle {
+      background-color: #eee;
+      color: #111;
+    }
+    
+  </style>
+</head>
+<body class="light_mode">
+  <button id="modeToggle" onclick="toggleMode()">Toggle Dark/Light Mode</button>
+  <h1>Current Time</h1>
+  <div id="time">--:--:--</div>
+
+  <script>
+    function updateTimeAndBackground() {
+      const now = new Date();
+      const hours = now.getHours();
+      const minutes = now.getMinutes().toString().padStart(2, '0');
+      const seconds = now.getSeconds().toString().padStart(2, '0');
+
+      document.getElementById('time').textContent = `${hours}:${minutes}:${seconds}`;
+
+      const body = document.body;
+      if (!body.classList.contains('dark-mode')) {
+        body.classList.remove('morning', 'afternoon', 'night');
+
+        if (hours >= 5 && hours < 12) {
+          body.classList.add('morning');
+        } else if (hours >= 12 && hours < 18) {
+          body.classList.add('afternoon');
+        } else {
+          body.classList.add('night');
+        }
+      }
+    }
+
+    function toggleMode() {
+      document.body.classList.toggle('dark_mode');
+      const icon = document.getElementById('modeIcon');
+      if (document.body.classList.contains('dark_mode'))
+     {
+      icon.textContent = '☀️';
+     } 
+      else
+       {
+         icon.textContent = '🌙';
+       }
+    }
+
+    updateTimeAndBackground();
+    setInterval(updateTimeAndBackground, 1000);
+    
+  </script>
+</body>
+</html>
